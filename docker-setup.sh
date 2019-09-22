@@ -11,7 +11,9 @@ function setup_conf_and_secret {
     postconf -e 'smtp_tls_security_level = encrypt'
     postconf -e 'mynetworks = 127.0.0.0/8 172.16.0.0/12 10.0.0.0/8'
 
-    echo "$MTP_RELAY   $MTP_USER:$MTP_PASS" > /etc/postfix/relay_passwd
+    MY_MTP_USER = $(cat $MTP_USER)
+    MY_MTP_PASS = $(cat $MTP_PASS)
+    echo "$MTP_RELAY   $MY_MTP_USER:$MY_MTP_PASS" > /etc/postfix/relay_passwd
     postmap /etc/postfix/relay_passwd
 }
 
