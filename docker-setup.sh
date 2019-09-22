@@ -1,5 +1,8 @@
 #!/bin/bash
 
+MY_MTP_USER=$(cat $MTP_USER)
+MY_MTP_PASS=$(cat $MTP_PASS)
+
 # configure postfix
 
 function setup_conf_and_secret {
@@ -11,8 +14,6 @@ function setup_conf_and_secret {
     postconf -e 'smtp_tls_security_level = encrypt'
     postconf -e 'mynetworks = 127.0.0.0/8 172.16.0.0/12 10.0.0.0/8'
 
-    MY_MTP_USER = $(cat $MTP_USER)
-    MY_MTP_PASS = $(cat $MTP_PASS)
     echo "$MTP_RELAY   $MY_MTP_USER:$MY_MTP_PASS" > /etc/postfix/relay_passwd
     postmap /etc/postfix/relay_passwd
 }
